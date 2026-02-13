@@ -83,21 +83,7 @@ namespace AshfallFrontier.UI
             slider.targetGraphic = bg;
             slider.fillRect = fillRt;
 
-            // Text label
-            var txtGo = new GameObject("Label");
-            txtGo.transform.SetParent(go.transform, false);
-            var txt = txtGo.AddComponent<Text>();
-            txt.text = label;
-            txt.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
-            txt.fontSize = 12;
-            txt.color = new Color(1, 1, 1, 0.85f);
-            txt.alignment = TextAnchor.MiddleLeft;
-            var txtRt = txtGo.GetComponent<RectTransform>();
-            txtRt.anchorMin = new Vector2(0, 0);
-            txtRt.anchorMax = new Vector2(1, 1);
-            txtRt.offsetMin = new Vector2(6, 0);
-            txtRt.offsetMax = new Vector2(-6, 0);
-
+            // Label text removed for Unity 6 default-font compatibility (keeps Console clean).
             return slider;
         }
     }
