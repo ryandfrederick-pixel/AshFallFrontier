@@ -33,6 +33,11 @@ namespace AshfallFrontier.AI
         public float hitRadius = 1.0f;
         public LayerMask hitMask;
 
+        [Header("Debug")]
+        public bool debugLogHits = false;
+        public bool debugDrawHitSphere = true;
+        private Vector3 _lastHitCenter;
+
         [Header("Telegraph (visual)")]
         public Color telegraphColor = new Color(1f, 0.4f, 0.1f);
 
@@ -132,12 +137,22 @@ namespace AshfallFrontier.AI
 
             // Damage sphere in front
             Vector3 center = transform.position + transform.forward * 1.0f + Vector3.up * 0.9f;
-            var hits = Physics.OverlapSphere(center, hitRadius, hitMask, QueryTriggerInteraction.Ignore);
+            _lastHitCenter = center;
+
+            int mask = hitMask.value;
+            if (mask == 0) mask = ~0; // default to Everything
+
+            var hits = Physics.OverlapSphere(center, hitRadius, mask, QueryTriggerInteraction.Ignore);
+            if (debugLogHits)
+                Debug.Log($"[MeleeGrunt] Hit check: found {hits.Length} colliders");
+
             foreach (var h in hits)
             {
+                if (debugLogHits) Debug.Log($"[MeleeGrunt] collider: {h.name} layer={LayerMask.LayerToName(h.gameObject.layer)}");
                 var c = h.GetComponentInParent<Combatant>();
                 if (c != null && c != _combatant)
                 {
+                    if (debugLogHits) Debug.Log($"[MeleeGrunt] applying {damage} dmg to {c.name}");
                     c.TakeDamage(damage);
                 }
             }
@@ -149,6 +164,13 @@ namespace AshfallFrontier.AI
             Gizmos.DrawWireSphere(transform.position, aggroRange);
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, attackRange);
+
+            if (debugDrawHitSphere)
+            {
+                Gizmos.color = new Color(1f, 0.3f, 0.3f, 0.5f);
+                Vector3 c = Application.isPlaying ? _lastHitCenter : (transform.position + transform.forward * 1.0f + Vector3.up * 0.9f);
+                Gizmos.DrawWireSphere(c, hitRadius);
+            }
         }
     }
 }
