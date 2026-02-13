@@ -15,12 +15,17 @@ namespace AshfallFrontier.Combat
 
         public void Fire()
         {
+            // Prevent self-hits by ignoring Combatant on the same root.
+            var owner = GetComponentInParent<Combatant>();
+
             var hits = Physics.OverlapSphere(transform.position, radius, hitMask, QueryTriggerInteraction.Ignore);
             foreach (var h in hits)
             {
                 var c = h.GetComponentInParent<Combatant>();
-                if (c != null)
-                    c.TakeDamage(damage);
+                if (c == null) continue;
+                if (owner != null && c == owner) continue;
+
+                c.TakeDamage(damage);
             }
         }
 
