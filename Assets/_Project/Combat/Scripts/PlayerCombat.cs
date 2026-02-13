@@ -28,7 +28,7 @@ namespace AshfallFrontier.Combat
         public float dodgeSpeed = 9.5f;
 
         [Header("Controls")]
-        public KeyCode blockKey = KeyCode.Mouse1;
+        public KeyCode blockKey = KeyCode.LeftShift;
         public KeyCode dodgeKey = KeyCode.Space;
 
         private bool _locked;
@@ -64,9 +64,8 @@ namespace AshfallFrontier.Combat
             }
             if (!_dodging && Input.GetMouseButtonDown(1))
             {
-                // Mouse1 is heavy by default, but if you prefer RMB for block, we can remap later.
-                // If RMB is held, block wins.
-                if (!Input.GetKey(blockKey) && combatant.stamina.Spend(heavyStaminaCost))
+                // Heavy attack (RMB).
+                if (combatant.stamina.Spend(heavyStaminaCost))
                     StartCoroutine(Attack(heavyWindup, heavy: true));
             }
         }
