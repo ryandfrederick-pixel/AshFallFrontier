@@ -39,9 +39,18 @@ namespace AshfallFrontier.Combat
                 Cursor.visible = false;
             }
 
-            var e = transform.eulerAngles;
-            _yaw = e.y;
-            _pitch = e.x;
+            // Start behind the target for a consistent third-person feel.
+            if (target)
+            {
+                _yaw = target.eulerAngles.y;
+                _pitch = 15f;
+            }
+            else
+            {
+                var e = transform.eulerAngles;
+                _yaw = e.y;
+                _pitch = e.x;
+            }
         }
 
         void LateUpdate()

@@ -19,8 +19,13 @@ namespace AshfallFrontier.AI
 
         void Update()
         {
+            // For M1 setup/testing, don't auto-disable the object; just freeze it visually.
             if (combatant.health && combatant.health.IsDead)
-                gameObject.SetActive(false);
+            {
+                var r = GetComponentInChildren<Renderer>();
+                if (r) r.material.color = new Color(0.25f, 0.25f, 0.25f);
+                enabled = false;
+            }
         }
     }
 }
