@@ -21,6 +21,12 @@ namespace AshfallFrontier.Combat
         public float pitchMin = -35f;
         public float pitchMax = 70f;
 
+        [Header("Zoom")]
+        public float zoomSpeed = 4.0f;
+        public float zoomMin = 2.0f;
+        public float zoomMax = 8.0f;
+        public bool invertScroll = false;
+
         [Header("Smoothing")]
         public float positionLerp = 18f;
         public float rotationLerp = 22f;
@@ -59,10 +65,17 @@ namespace AshfallFrontier.Combat
 
             float mx = Input.GetAxisRaw("Mouse X");
             float my = Input.GetAxisRaw("Mouse Y");
+            float scroll = Input.GetAxisRaw("Mouse ScrollWheel");
 
             _yaw += mx * sensitivityX * Time.deltaTime;
             _pitch -= my * sensitivityY * Time.deltaTime;
             _pitch = Mathf.Clamp(_pitch, pitchMin, pitchMax);
+
+            if (Mathf.Abs(scroll) > 0.0001f)
+            {
+                float s = invertScroll ? -scroll : scroll;
+                distance = Mathf.Clamp(distance - s * zoomSpeed, zoomMin, zoomMax);
+            }
 
             var rot = Quaternion.Euler(_pitch, _yaw, 0f);
             var desiredPos = target.position + Vector3.up * height - (rot * Vector3.forward) * distance;
