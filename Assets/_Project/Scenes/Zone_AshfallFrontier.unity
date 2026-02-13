@@ -488,6 +488,9 @@ GameObject:
   - component: {fileID: 563746221}
   - component: {fileID: 563746220}
   - component: {fileID: 563746219}
+  - component: {fileID: 563746230}
+  - component: {fileID: 563746229}
+  - component: {fileID: 563746228}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -509,7 +512,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AshfallFrontier.Combat.PlayerCombat
   combatant: {fileID: 0}
   controller: {fileID: 0}
-  hitbox: {fileID: 0}
+  hitbox: {fileID: 1452426411}
   dodgeStaminaCost: 22
   lightStaminaCost: 8
   heavyStaminaCost: 14
@@ -700,6 +703,45 @@ Transform:
   - {fileID: 1452426410}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &563746228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563746218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 521359ed8520ef4479f5d9b2cdc28b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AshfallFrontier.Core.SaveBinder
+--- !u!114 &563746229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563746218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76ea9022ffff3cb4aa36eb416e048313, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AshfallFrontier.Items.InventoryOnGUI
+  toggleKey: 105
+  open: 0
+--- !u!114 &563746230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563746218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f171c6baad022474aad99bc62fb37941, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AshfallFrontier.Items.Inventory
+  entries: []
 --- !u!1 &981896918
 GameObject:
   m_ObjectHideFlags: 0
@@ -716,6 +758,8 @@ GameObject:
   - component: {fileID: 981896921}
   - component: {fileID: 981896920}
   - component: {fileID: 981896919}
+  - component: {fileID: 981896927}
+  - component: {fileID: 981896928}
   m_Layer: 0
   m_Name: MeleeGrunt
   m_TagString: Untagged
@@ -906,6 +950,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &981896927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981896918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7e06126fe896e745a87cd2032d072e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AshfallFrontier.Loot.LootDropOnDeath
+  lootPickupPrefab: {fileID: 0}
+  itemId: test_item
+  qty: 1
+  spawnOffset: {x: 0, y: 0.2, z: 0}
+--- !u!114 &981896928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981896918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5ce1b334d94b034d904f916da9b51a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AshfallFrontier.Combat.HealthDebugLabel
+  worldOffset: {x: 0, y: 2, z: 0}
+  color: {r: 1, g: 0, b: 0, a: 1}
+  hideWhenDead: 1
 --- !u!1 &1102264847
 GameObject:
   m_ObjectHideFlags: 0
@@ -1096,7 +1171,7 @@ Transform:
   m_GameObject: {fileID: 1452426409}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1118,7 +1193,7 @@ MonoBehaviour:
   damage: 12
   hitMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   debugDraw: 1
 --- !u!1 &2140968103
 GameObject:
