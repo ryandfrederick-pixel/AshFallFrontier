@@ -57,38 +57,53 @@ namespace AshfallFrontier.UI
 
         Slider MakeBar(Transform parent, string label, Vector2 topLeft, Color fillColor)
         {
-            var go = new GameObject(label);
-            go.transform.SetParent(parent, false);
+            // Root
+            var root = new GameObject(label);
+            root.transform.SetParent(parent, false);
 
-            var rt = go.AddComponent<RectTransform>();
+            var rt = root.AddComponent<RectTransform>();
             rt.anchorMin = new Vector2(0, 1);
             rt.anchorMax = new Vector2(0, 1);
             rt.pivot = new Vector2(0, 1);
             rt.anchoredPosition = topLeft;
             rt.sizeDelta = size;
 
-            var bg = go.AddComponent<Image>();
+            // Background
+            var bg = root.AddComponent<Image>();
             bg.color = new Color(1, 1, 1, 0.12f);
 
-            var slider = go.AddComponent<Slider>();
+            // Slider
+            var slider = root.AddComponent<Slider>();
             slider.direction = Slider.Direction.LeftToRight;
             slider.transition = Selectable.Transition.None;
+            slider.minValue = 0;
+            slider.maxValue = 1;
+            slider.value = 1;
 
-            // Fill
-            var fillGo = new GameObject("Fill");
-            fillGo.transform.SetParent(go.transform, false);
-            var fillRt = fillGo.AddComponent<RectTransform>();
+            // Fill Area (Unity slider expects a nested hierarchy)
+            var fillArea = new GameObject("Fill Area");
+            fillArea.transform.SetParent(root.transform, false);
+            var fillAreaRt = fillArea.AddComponent<RectTransform>();
+            fillAreaRt.anchorMin = new Vector2(0, 0);
+            fillAreaRt.anchorMax = new Vector2(1, 1);
+            fillAreaRt.offsetMin = new Vector2(2, 2);
+            fillAreaRt.offsetMax = new Vector2(-2, -2);
+
+            var fill = new GameObject("Fill");
+            fill.transform.SetParent(fillArea.transform, false);
+            var fillRt = fill.AddComponent<RectTransform>();
             fillRt.anchorMin = new Vector2(0, 0);
             fillRt.anchorMax = new Vector2(1, 1);
-            fillRt.offsetMin = new Vector2(2, 2);
-            fillRt.offsetMax = new Vector2(-2, -2);
-            var fillImg = fillGo.AddComponent<Image>();
+            fillRt.offsetMin = Vector2.zero;
+            fillRt.offsetMax = Vector2.zero;
+
+            var fillImg = fill.AddComponent<Image>();
             fillImg.color = fillColor;
 
             slider.targetGraphic = bg;
             slider.fillRect = fillRt;
 
-            // Label text removed for Unity 6 default-font compatibility (keeps Console clean).
+            // No handle for now.
             return slider;
         }
     }
