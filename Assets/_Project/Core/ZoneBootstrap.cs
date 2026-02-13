@@ -27,6 +27,10 @@ namespace AshfallFrontier.Core
         public Transform playerSpawn;
         public Transform[] enemySpawns;
 
+        [Header("Respawn")]
+        [Tooltip("Optional: if assigned, ensures a RespawnPoint exists at this transform.")]
+        public Transform respawnPoint;
+
         [Header("Camera")]
         [Tooltip("If empty, will use Camera.main.")]
         public ThirdPersonCamera thirdPersonCamera;
@@ -48,6 +52,7 @@ namespace AshfallFrontier.Core
             EnsurePlayer();
             EnsureCamera();
             EnsureHud();
+            EnsureRespawnPoint();
             if (spawnEnemies) EnsureEnemies();
         }
 
@@ -124,6 +129,16 @@ namespace AshfallFrontier.Core
             // Try bind HudAutoBuilder to player.
             var builder = hudGo.GetComponent<HudAutoBuilder>();
             if (builder) builder.player = _playerCombatant;
+        }
+
+        void EnsureRespawnPoint()
+        {
+            if (!respawnPoint) return;
+            if (FindFirstObjectByType<RespawnPoint>()) return;
+
+            var go = new GameObject("RespawnPoint");
+            go.transform.SetPositionAndRotation(respawnPoint.position, respawnPoint.rotation);
+            go.AddComponent<RespawnPoint>();
         }
 
         void EnsureEnemies()
