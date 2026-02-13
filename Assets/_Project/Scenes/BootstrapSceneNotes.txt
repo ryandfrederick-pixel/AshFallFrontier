@@ -1,14 +1,17 @@
 Create these scenes in Unity (will be added by commits as .unity files once generated on a Unity-capable machine):
 
 - Assets/_Project/Scenes/Boot.unity
-  - GameObject: GameRoot (SaveSystem, GameState)
-  - Load scene: Zone_AshfallFrontier additively
+  - GameObject: GameRoot
+    - Components:
+      - AshfallFrontier.Core.BootLoader (loads Zone_AshfallFrontier additively)
+      - SaveSystem (placeholder)
+      - GameState (placeholder)
 
 - Assets/_Project/World/Scenes/Zone_AshfallFrontier.unity
   - Harborwatch and Cinderpost placeholders
   - Fast travel points
   - POI markers
 
-For now, use SampleScene.unity as a test harness:
+For now, you can still use SampleScene.unity as a test harness:
 - Add Player capsule with CharacterController + PlayerMotor
 - Add Camera with ThirdPersonCamera targeting player
