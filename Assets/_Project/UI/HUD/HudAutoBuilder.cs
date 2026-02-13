@@ -19,6 +19,11 @@ namespace AshfallFrontier.UI
 
         void Start()
         {
+            if (!player)
+            {
+                var p = GameObject.FindWithTag("Player");
+                if (p) player = p.GetComponent<Combatant>();
+            }
             if (!player) player = FindFirstObjectByType<Combatant>();
 
             var canvasGo = new GameObject("HUD");
