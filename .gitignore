@@ -1,0 +1,35 @@
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Addressables / Asset Store tools
+Assets/AddressableAssetsData/*/*.bin*
+
+# Crash reports
+sysinfo.txt
+
+# Unity meta should be committed
+!/[Aa]ssets/**/*.meta
+
+# Packages lockfiles are ok to commit (recommended)
