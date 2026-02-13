@@ -7,6 +7,10 @@
 [Ll]ogs/
 [Uu]ser[Ss]ettings/
 
+# Unity generated scene bake folders (lighting/reflection/occlusion artifacts)
+# These tend to churn; commit intentionally only when you want deterministic baked lighting.
+/[Aa]ssets/**/[Ss]cenes/*/
+
 # Visual Studio / Rider
 .vs/
 .idea/
