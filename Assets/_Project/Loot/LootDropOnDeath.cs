@@ -5,6 +5,9 @@ namespace AshfallFrontier.Loot
 {
     /// <summary>
     /// Attach to enemies. When Health reaches 0 for the first time, spawns a LootPickup.
+    /// 
+    /// Spawn placement tries to be sane regardless of enemy pivot by using collider bounds,
+    /// falling back to transform.position.
     /// </summary>
     [RequireComponent(typeof(Health))]
     public class LootDropOnDeath : MonoBehaviour
@@ -12,7 +15,13 @@ namespace AshfallFrontier.Loot
         public GameObject lootPickupPrefab;
         public string itemId = "test_item";
         public int qty = 1;
-        public Vector3 spawnOffset = new Vector3(0, 0.2f, 0);
+
+        [Header("Spawn")]
+        [Tooltip("Extra offset applied after calculating a ground-ish spawn point.")]
+        public Vector3 spawnOffset = new Vector3(0, 0.15f, 0);
+
+        [Tooltip("If true, spawn near collider bottom (feet). If false, use transform.position.")]
+        public bool spawnAtColliderBottom = true;
 
         private Health _health;
         private bool _dropped;
@@ -32,6 +41,25 @@ namespace AshfallFrontier.Loot
             SpawnLoot();
         }
 
+        Vector3 ComputeSpawnPoint()
+        {
+            if (!spawnAtColliderBottom)
+                return transform.position;
+
+            // Prefer a collider on this object; else any child collider.
+            var col = GetComponent<Collider>();
+            if (!col) col = GetComponentInChildren<Collider>();
+
+            if (col)
+            {
+                var b = col.bounds;
+                // Bounds center XZ, bottom Y.
+                return new Vector3(b.center.x, b.min.y, b.center.z);
+            }
+
+            return transform.position;
+        }
+
         void SpawnLoot()
         {
             if (!lootPickupPrefab)
@@ -40,7 +68,8 @@ namespace AshfallFrontier.Loot
                 return;
             }
 
-            var go = Instantiate(lootPickupPrefab, transform.position + spawnOffset, Quaternion.identity);
+            var pos = ComputeSpawnPoint() + spawnOffset;
+            var go = Instantiate(lootPickupPrefab, pos, Quaternion.identity);
             var lp = go.GetComponent<LootPickup>();
             if (lp)
             {
